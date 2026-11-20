@@ -136,9 +136,15 @@ function App() {
         <div className="hero-card"><div><span className="hero-tag"><Sparkles size={14}/> YOUR WELLNESS SCORE</span><h2>{totalXp.toLocaleString()} <small>XP</small></h2><p>{xpToNext} XP to your next level milestone</p><div className="level-track"><i style={{width:`${(totalXp%500)/5}%`}}/></div><span className="hero-foot">LEVEL {Math.floor(totalXp/500)+1} · {levelName(totalXp)}</span></div><div className="hero-orbit">✦</div><div className="hero-streak"><b>🔥 {streak}</b><span>day streak</span></div></div>
         <div className="section-heading"><div><h3>Today's targets</h3><p className="muted">Update your progress and save your check-in.</p></div><span className="live-dot">● TODAY</span></div>
         <form className="tracker-grid" onSubmit={saveLog}>
-          <Tracker icon={<Utensils/>} title="Protein" unit="grams" value={todayLog.protein_g} target={profile?.protein_target_g || 80} color="green" onChange={v=>setTodayLog(x=>({...x,protein_g:v}))} progress={pct(todayLog.protein_g,profile?.protein_target_g||80)} />
-          <Tracker icon={<Droplets/>} title="Water" unit="millilitres" value={todayLog.water_ml} target={profile?.water_target_ml || 2500} color="blue" onChange={v=>setTodayLog(x=>({...x,water_ml:v}))} progress={pct(todayLog.water_ml,profile?.water_target_ml||2500)} />
-          <Tracker icon={<Footprints/>} title="Steps" unit="steps" value={todayLog.steps} target={profile?.steps_target || 8000} color="orange" onChange={v=>setTodayLog(x=>({...x,steps:v}))} progress={pct(todayLog.steps,profile?.steps_target||8000)} />
+          <Tracker icon={<Utensils/>} title="Protein" unit="grams" value={todayLog.protein_g} target={profile?.protein_target_g || 80} color="green" 
+          onChange={(v: number) => setTodayLog(x => ({ ...x, protein_g: v }))}
+           progress={pct(todayLog.protein_g,profile?.protein_target_g||80)} />
+          <Tracker icon={<Droplets/>} title="Water" unit="millilitres" value={todayLog.water_ml} target={profile?.water_target_ml || 2500} color="blue"
+          onChange={(v: number) => setTodayLog(x => ({ ...x, water_ml: v }))}
+            progress={pct(todayLog.water_ml,profile?.water_target_ml||2500)} />
+          <Tracker icon={<Footprints/>} title="Steps" unit="steps" value={todayLog.steps} target={profile?.steps_target || 8000} color="orange" 
+         onChange={(v: number) => setTodayLog(x => ({ ...x, steps: v }))}
+          progress={pct(todayLog.steps,profile?.steps_target||8000)} />
           <div className="save-card"><div className="save-icon"><Target/></div><h3>Ready to check in?</h3><p>Save your numbers to earn points and update your community progress.</p><button className="primary-btn" disabled={busy}>{busy?"Saving…":"Save today's progress"}</button><span className="tiny-muted">Your targets can be adjusted in your profile in a future release.</span></div>
         </form>
         <div className="section-heading"><div><h3>Your achievements</h3><p className="muted">Celebrate every milestone.</p></div></div>
