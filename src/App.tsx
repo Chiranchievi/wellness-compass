@@ -68,17 +68,52 @@ function App() {
     setLoading(false);
   }
 
+  // async function authenticate(e: React.FormEvent) {
+  //   e.preventDefault(); if (!supabase) return;
+  //   setBusy(true); setNotice("");
+  //   const result = authMode === "signup"
+  //     ? await supabase.auth.signUp({ email, password, options: { data: { display_name: displayName } } })
+  //     : await supabase.auth.signInWithPassword({ email, password });
+  //   if (result.error) setNotice(result.error.message);
+  //   else if (authMode === "signup" && !result.data.session) setNotice("Check your email to confirm your account, then sign in.");
+  //   else setNotice("Welcome to Wellness Compass!");
+  //   setBusy(false);
+  // }
+
+
   async function authenticate(e: React.FormEvent) {
-    e.preventDefault(); if (!supabase) return;
-    setBusy(true); setNotice("");
-    const result = authMode === "signup"
-      ? await supabase.auth.signUp({ email, password, options: { data: { display_name: displayName } } })
-      : await supabase.auth.signInWithPassword({ email, password });
-    if (result.error) setNotice(result.error.message);
-    else if (authMode === "signup" && !result.data.session) setNotice("Check your email to confirm your account, then sign in.");
-    else setNotice("Welcome to Wellness Compass!");
-    setBusy(false);
+  e.preventDefault();
+  if (!supabase) return;
+
+  setBusy(true);
+  setNotice("");
+
+  const result = authMode === "signup"
+    ? await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            display_name: displayName
+          },
+          emailRedirectTo: `${window.location.origin}/`
+        }
+      })
+    : await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+  if (result.error) {
+    setNotice(result.error.message);
+  } else if (authMode === "signup" && !result.data.session) {
+    setNotice("Check your email to confirm your account, then sign in.");
+  } else {
+    setNotice("Welcome to Wellness Compass!");
   }
+
+  setBusy(false);
+}
 
   async function saveLog(e: React.FormEvent) {
     e.preventDefault(); if (!supabase) return;
